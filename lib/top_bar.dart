@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+
 import 'app_colors.dart';
 import 'app_dimensions.dart';
 
 class TopBar extends StatelessWidget {
   final String title;
   final String avatarLetter;
+  final VoidCallback? onCloudAction;
 
   const TopBar({
     super.key,
     required this.title,
     required this.avatarLetter,
+    this.onCloudAction,
   });
 
   @override
@@ -29,21 +32,33 @@ class TopBar extends StatelessWidget {
                 color: AppColors.primaryDark,
               ),
             ),
-            Container(
-              width: AppDimensions.avatarSize,
-              height: AppDimensions.avatarSize,
-              decoration: const BoxDecoration(
-                color: AppColors.chipBg,
-                shape: BoxShape.circle,
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                avatarLetter,
-                style: const TextStyle(
-                  color: AppColors.primaryDark,
-                  fontWeight: FontWeight.w600,
+            Row(
+              children: [
+                if (onCloudAction != null) ...[
+                  IconButton(
+                    icon: const Icon(Icons.cloud_outlined, color: AppColors.primaryDark),
+                    tooltip: 'Tareas en la nube',
+                    onPressed: onCloudAction,
+                  ),
+                  const SizedBox(width: 4),
+                ],
+                Container(
+                  width: AppDimensions.avatarSize,
+                  height: AppDimensions.avatarSize,
+                  decoration: const BoxDecoration(
+                    color: AppColors.chipBg,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    avatarLetter,
+                    style: const TextStyle(
+                      color: AppColors.primaryDark,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),

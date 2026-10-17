@@ -10,6 +10,7 @@ import 'quote_card.dart';
 import 'section_header.dart';
 import 'task.dart';
 import 'task_provider.dart';
+import 'tareas_remotas_screen.dart';
 import 'top_bar.dart';
 
 class TaskflowPage extends ConsumerWidget {
@@ -25,7 +26,16 @@ class TaskflowPage extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const TopBar(title: 'TaskFlow', avatarLetter: 'J'),
+            TopBar(
+              title: 'TaskFlow',
+              avatarLetter: 'J',
+              onCloudAction: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const TareasRemotasScreen()),
+                );
+              },
+            ),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -38,9 +48,14 @@ class TaskflowPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 24),
                   SectionHeader(
-                    title: 'Tareas pendientes',
-                    actionLabel: '+ Nueva',
-                    onAction: () => _navegarNuevaTarea(context, ref),
+                    title: 'Tareas locales',
+                    actionLabel: '+ Nube (API)',
+                    onAction: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const TareasRemotasScreen()),
+                      );
+                    },
                   ),
                   const SizedBox(height: AppDimensions.gap),
                   if (tasks.isEmpty)
@@ -80,7 +95,14 @@ class TaskflowPage extends ConsumerWidget {
           BottomDestination(icon: Icons.person_outline, label: 'Perfil'),
         ],
         currentIndex: 0,
-        onTap: (index) {},
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const TareasRemotasScreen()),
+            );
+          }
+        },
       ),
     );
   }
