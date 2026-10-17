@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'app_theme.dart';
-import 'taskflow_page.dart';
+import 'login_screen.dart';
 
 void main() {
-  runApp(const ProviderScope(child: TaskFlowApp()));
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
-class TaskFlowApp extends StatelessWidget {
-  const TaskFlowApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TaskFlow',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      home: const TaskflowPage(),
+      theme: ThemeData(
+        useMaterial3: true,
+        primarySwatch: Colors.indigo,
+      ),
+      home: const LoginScreen(),
     );
   }
 }
