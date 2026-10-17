@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
-
 import 'app_colors.dart';
 
-/// Tema global de la aplicación.
 class AppTheme {
-  AppTheme._();
-
-  static ThemeData get light => ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: AppColors.surface,
-        fontFamily: 'Roboto',
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryDark),
-      );
+  static ThemeData get light {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.primaryDark,
+        surface: AppColors.surface,
+      ),
+      scaffoldBackgroundColor: AppColors.surface,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.surface,
+        foregroundColor: AppColors.primaryDark,
+        elevation: 0,
+        centerTitle: false,
+      ),
+    );
+  }
 }

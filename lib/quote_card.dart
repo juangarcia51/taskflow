@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'app_colors.dart';
 import 'app_dimensions.dart';
 
-/// Tarjeta de frase.
 class QuoteCard extends StatelessWidget {
   final String quote;
   final String author;

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app_colors.dart';
 import 'app_dimensions.dart';
 import 'header_card.dart';
+import 'nueva_tarea_screen.dart';
 import 'priority_chip.dart';
 import 'quote_card.dart';
 import 'section_header.dart';
@@ -39,7 +40,7 @@ class TaskflowPage extends ConsumerWidget {
                   SectionHeader(
                     title: 'Tareas pendientes',
                     actionLabel: '+ Nueva',
-                    onAction: () => _showAddTaskDialog(context, ref),
+                    onAction: () => _navegarNuevaTarea(context, ref),
                   ),
                   const SizedBox(height: AppDimensions.gap),
                   if (tasks.isEmpty)
@@ -65,6 +66,13 @@ class TaskflowPage extends ConsumerWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.add),
+        label: const Text('Nueva tarea'),
+        backgroundColor: AppColors.primaryDark,
+        foregroundColor: Colors.white,
+        onPressed: () => _navegarNuevaTarea(context, ref),
+      ),
       bottomNavigationBar: BottomBar(
         destinations: const [
           BottomDestination(icon: Icons.check_circle_outline, label: 'Tareas'),
@@ -77,48 +85,21 @@ class TaskflowPage extends ConsumerWidget {
     );
   }
 
-  void _showAddTaskDialog(BuildContext context, WidgetRef ref) {
-    final titleController = TextEditingController();
-    final categoryController = TextEditingController();
+  Future<void> _navegarNuevaTarea(BuildContext context, WidgetRef ref) async {
+    final nueva = await Navigator.push<Task>(
+      context,
+      MaterialPageRoute(builder: (_) => const NuevaTareaScreen()),
+    );
 
-    showDialog(
-      context: context,
-      builder: (dialogCtx) => AlertDialog(
-        title: const Text('Nueva Tarea'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(labelText: 'Título'),
-            ),
-            TextField(
-              controller: categoryController,
-              decoration: const InputDecoration(labelText: 'Categoría'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogCtx),
-            child: const Text('Cancelar'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.trim().isNotEmpty) {
-                ref.read(taskListProvider.notifier).addTask(
-                      titleController.text.trim(),
-                      categoryController.text.trim().isEmpty
-                          ? 'General'
-                          : categoryController.text.trim(),
-                      Priority.media,
-                    );
-                Navigator.pop(dialogCtx);
-              }
-            },
-            child: const Text('Guardar'),
-          ),
-        ],
+    if (nueva == null) return;
+
+    ref.read(taskListProvider.notifier).addTaskObject(nueva);
+
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Tarea "${nueva.title}" creada con éxito'),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
@@ -131,6 +112,11 @@ class _TaskItemTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String fechaStr = task.dueDate != null
+        ? '${task.dueDate!.day.toString().padLeft(2, '0')}/${task.dueDate!.month.toString().padLeft(2, '0')}/${task.dueDate!.year}'
+        : '';
+    final String descripcion = task.descText;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.margin,
@@ -176,17 +162,47 @@ class _TaskItemTile extends ConsumerWidget {
                           : AppColors.textDark,
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    task.category,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textMuted,
+                  if (descripcion.trim().isNotEmpty) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      descripcion,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textDark,
+                      ),
                     ),
+                  ],
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Text(
+                        task.category,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.textMuted,
+                        ),
+                      ),
+                      if (fechaStr.isNotEmpty) ...[
+                        const SizedBox(width: 8),
+                        const Icon(Icons.event, size: 12, color: AppColors.textMuted),
+                        const SizedBox(width: 3),
+                        Text(
+                          fechaStr,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: AppColors.textMuted,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ),
             ),
+            const SizedBox(width: 8),
             PriorityChip(priority: task.priority),
             IconButton(
               icon: const Icon(Icons.delete_outline, size: 20, color: Colors.redAccent),

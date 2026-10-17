@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart'; // 1. Importación añadida
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app_theme.dart';
 import 'taskflow_page.dart';
 
 void main() {
-  // 2. ProviderScope envuelve toda la aplicación
   runApp(const ProviderScope(child: TaskFlowApp()));
 }
 

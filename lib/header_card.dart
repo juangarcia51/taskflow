@@ -4,8 +4,6 @@ import 'app_colors.dart';
 import 'app_dimensions.dart';
 import 'progress_badge.dart';
 
-/// Tarjeta de cabecera (alto 104 · radio 20) con la insignia ø76
-/// superpuesta al borde inferior derecho.
 class HeaderCard extends StatelessWidget {
   final String greeting;
   final String date;
@@ -71,7 +69,6 @@ class HeaderCard extends StatelessWidget {
               ],
             ),
           ),
-          // Insignia superpuesta: mitad fuera del borde inferior (ø76 / 2 = 38).
           Positioned(
             right: 16,
             bottom: -(AppDimensions.badgeSize / 2),

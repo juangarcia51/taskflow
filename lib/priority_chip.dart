@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'task.dart';
 
-/// Etiqueta de prioridad (Alta / Media / Baja) que aparece en cada tarea.
 class PriorityChip extends StatelessWidget {
   final Priority priority;
 

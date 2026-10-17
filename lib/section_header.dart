@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'app_colors.dart';
 import 'app_dimensions.dart';
 
-/// Encabezado de sección: título 17 pt + enlace 13 pt en acento.
 class SectionHeader extends StatelessWidget {
   final String title;
   final String actionLabel;

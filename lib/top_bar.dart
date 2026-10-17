@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'app_colors.dart';
 import 'app_dimensions.dart';
 
-/// Barra superior: alto 56 · título 22 pt negrita · avatar ø36.
 class TopBar extends StatelessWidget {
   final String title;
   final String avatarLetter;
@@ -54,14 +52,12 @@ class TopBar extends StatelessWidget {
   }
 }
 
-/// Un destino de la barra inferior.
 class BottomDestination {
   final IconData icon;
   final String label;
   const BottomDestination({required this.icon, required this.label});
 }
 
-/// Barra inferior: alto 72 · tres destinos repartidos por igual.
 class BottomBar extends StatelessWidget {
   final List<BottomDestination> destinations;
   final int currentIndex;
@@ -87,8 +83,7 @@ class BottomBar extends StatelessWidget {
         child: Row(
           children: List.generate(destinations.length, (i) {
             final selected = i == currentIndex;
-            final color =
-                selected ? AppColors.primaryDark : AppColors.textMuted;
+            final color = selected ? AppColors.primaryDark : AppColors.textMuted;
             return Expanded(
               child: InkWell(
                 onTap: () => onTap(i),
@@ -102,8 +97,7 @@ class BottomBar extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 12,
                         color: color,
-                        fontWeight:
-                            selected ? FontWeight.w600 : FontWeight.normal,
+                        fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
                       ),
                     ),
                   ],

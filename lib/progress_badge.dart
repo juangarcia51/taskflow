@@ -1,12 +1,9 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
-
 import 'app_colors.dart';
 
-/// Insignia circular con anillo de progreso (usada para el 60% de la cabecera).
 class ProgressBadge extends StatelessWidget {
-  final double progress; // 0.0 – 1.0
+  final double progress;
   final double size;
 
   const ProgressBadge({
@@ -79,7 +76,7 @@ class _RingPainter extends CustomPainter {
     canvas.drawCircle(center, radius, track);
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
-      -math.pi / 2, // empieza arriba
+      -math.pi / 2,
       2 * math.pi * progress,
       false,
       arc,
